@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 
+// AFTER CLASS 09
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { useNavigate, Outlet, Link } from 'react-router-dom';
 
 import {
@@ -9,20 +13,21 @@ import {
   AiOutlineBgColors,
   AiOutlinePicRight,
   AiOutlinePicLeft,
+  AiOutlineEye,
+  AiOutlineLogout,
 } from "react-icons/ai";
 
 import { BiCategoryAlt } from "react-icons/bi";
 
-import {
-  FaClipboardList,
-  FaBloggerB
-} from "react-icons/fa";
+import { FaClipboardList, FaBloggerB } from "react-icons/fa";
 
 import { ImBlog } from "react-icons/im";
 
 import { IoIosNotifications } from "react-icons/io";
 
 import { SiBrandfolder } from "react-icons/si";
+
+import { RiCouponLine } from "react-icons/ri";
 
 import './MainLayout.css';
 
@@ -43,10 +48,16 @@ const MainLayout = () => {
             <span className='lg-logo'>Hey People</span>
           </h2>
         </div>
+
         <Menu theme="dark" mode="inline"
           defaultSelectedKeys={ ['1'] }
           onClick={ ({ key }) => {
-            if (key === 'logout') {
+            // if (key === 'logout') {
+            //TODO: LAST TIME OF CLASS 18
+            if (key === 'signout') {
+              localStorage.clear();
+              window.location.reload();
+              // navigate('/');
             } else {
               navigate(key);
             }
@@ -115,6 +126,23 @@ const MainLayout = () => {
               label: 'Orders',
             },
             {
+              key: 'marketing',
+              icon: <FaBloggerB className='fs-4' />,
+              label: 'Marketing',
+              children: [
+                {
+                  key: 'add-coupon',
+                  icon: <RiCouponLine className='fs-4' />,
+                  label: 'Add-Coupon',
+                },
+                {
+                  key: 'coupon-list',
+                  icon: <RiCouponLine className='fs-4' />,
+                  label: 'Coupon List',
+                },
+              ]
+            },
+            {
               key: 'blogs',
               icon: <FaBloggerB className='fs-4' />,
               label: 'Blogs',
@@ -143,8 +171,13 @@ const MainLayout = () => {
             },
             {
               key: 'enquiries',
-              icon: <FaClipboardList className='fs-4' />,
+              icon: <AiOutlineEye className='fs-4' />,
               label: 'Enquiries',
+            },
+            {
+              key: 'signout',
+              icon: <AiOutlineLogout  className='fs-4' />,
+              label: 'Signout',
             },
           ]}
         />
@@ -186,7 +219,7 @@ const MainLayout = () => {
 
               <div>
                 <h5 className='mb-0'>Hey People</h5>
-                <p className='mb-0'>pey.people@gmail.com</p>
+                <p className='mb-0'>hey.people@gmail.com</p>
               </div>
 
               <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -213,13 +246,29 @@ const MainLayout = () => {
           </div>
         </Header>
 
-        <Content style={ {
-          margin: '24px 16px',
-          padding: 24,
-          minHeight: 280,
-          background: colorBgContainer,
-          borderRadius: borderRadiusLG,
-        } } >
+        <Content
+          style={ {
+            margin: '24px 16px',
+            padding: 24,
+            minHeight: 280,
+            background: colorBgContainer,
+            borderRadius: borderRadiusLG,
+          } }
+        >
+          <ToastContainer
+            position="top-right"
+            // autoClose={5000}
+            autoClose={250}
+            hideProgressBar={false}
+            // newestOnTop={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            // pauseOnHover
+            theme="light"
+          />
           <Outlet />
         </Content>
       </Layout>

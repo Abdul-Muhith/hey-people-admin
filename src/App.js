@@ -22,11 +22,21 @@ import AddColor from './pages/Color/AddColor';
 import AddProductCategory from './pages/Product/AddProductCategory';
 import AddProductBrand from './pages/Brand/AddProductBrand';
 import AddProduct from './pages/Product/AddProduct';
+import AddCoupon from './pages/Coupon/AddCoupon';
+import CouponList from './pages/Coupon/CouponList';
+import ViewEnquiry from './pages/Enquiries/ViewEnquiry';
+import ViewOrders from './pages/Orders/ViewOrders';
+import { OpenRoutes } from './routing/OpenRoutes';
+import { PrivateRoutes } from './routing/PrivateRoutes';
+
+// import { OpenRoutes, PrivateRoutes } from './routing/index.js';
 
 function App() {
   return (
     <Router>
       <Routes>
+        {/* <Route path='/' element={<OpenRoutes><Login /></OpenRoutes>} /> */}
+        {/* <Route path='/admin' element={ <PrivateRoutes><MainLayout /></PrivateRoutes> } > */}
         <Route path='/' element={<Login />} />
         <Route path='/reset-password' element={<ResetPassword />} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
@@ -47,6 +57,17 @@ function App() {
           <Route path='category' element={<AddProductCategory />} />
           <Route path='brand' element={<AddProductBrand />} />
           <Route path='add-product' element={<AddProduct />} />
+          <Route path='add-coupon' element={<AddCoupon />} />
+          <Route path='coupon-list' element={<CouponList />} />
+          <Route path='brand/:id' element={<AddProductBrand />} />
+          <Route path='category/:id' element={<AddProductCategory />} />
+          <Route path='color/:id' element={<AddColor />} />
+          <Route path='update-coupon/:id' element={<AddCoupon />} />
+          <Route path='update-blog-category/:id' element={<AddBlogCategory />} />
+          <Route path='update-blog/:id' element={<AddBlog />} />
+          <Route path='enquiries/view-enquiry/:id' element={<ViewEnquiry />} />
+          <Route path='enquiries/:id' element={<Enquiries />} />
+          <Route path='orders/single-order/:id' element={<ViewOrders />} />
         </Route>
       </Routes>
     </Router>

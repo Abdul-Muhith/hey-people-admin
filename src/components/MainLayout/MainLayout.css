@@ -77,3 +77,13 @@ main::-webkit-scrollbar {
   top: 16px;
   right: -6px;
 }
+
+/* আমি বানাইছি ক্লাস ১৮ শেষ করার পর পর যেন মোবাইলে বাম পাশের আইকনগুলোর প্যাডিং কমে যায় */
+/*
+.ant-layout-sider-collapsed .ant-menu li {
+  padding: 5px 0 5px 0;
+}
+
+ */
+
+

@@ -1,20 +1,22 @@
-import React from 'react'
+const CustomInput = ({name, value, onChange, onBlur, type, input_class, input_id, label }) => {
 
-const CustomInput = ({type, input_class, input_id, label }) => {
   return (
     <>
       {/* <div>CustomInput</div> */}
 
-      <div className="form-floating mb-3">
+      <div className="form-floating mt-3">
         <input
+          name={name}
+          value={value}
+          onChange={onChange}
+          onBlur={onBlur}
           type={ type }
           className={ `form-control ${input_class}` }
           id={ input_id }
           placeholder={ label }
         />
 
-        <label
-          htmlFor={ input_id }>
+        <label htmlFor={ input_id }>
           { label }
         </label>
       </div>
