@@ -68,6 +68,7 @@ function App() {
           <Route path='enquiries/view-enquiry/:id' element={<ViewEnquiry />} />
           <Route path='enquiries/:id' element={<Enquiries />} />
           <Route path='orders/single-order/:id' element={<ViewOrders />} />
+          <Route path='update-product/:id' element={<AddProduct />} />
         </Route>
       </Routes>
     </Router>

@@ -64,6 +64,7 @@ export const authSlice = createSlice({
         state.user = null;
         state.message = action.error;
       })
+    // TODO: move to order slice
       // LECTURE 07
       // .addCase(getOrders.pending, (state) => {
       //   state.isLoading = true;

@@ -30,6 +30,11 @@ const columns = [
     sorter: (a, b) => a.category.length - b.category.length,
   },
   {
+    title: 'Description',
+    dataIndex: 'description',
+    sorter: (a, b) => a.description.length - b.description.length,
+  },
+  {
     title: 'Color',
     dataIndex: 'color',
     sorter: (a, b) => a.color.length - b.color.length,
@@ -74,11 +79,15 @@ const ProductList = () => {
       title: productState[i].title,
       brand: productState[i].brand,
       category: productState[i].category,
+      description: productState[i].description,
       color: productState[i].color,
       price: `${productState[i].price}`,
       action: (
         <>
-          <Link to='/' className='fs-3 text-secondary'>
+          <Link
+            to={ `/admin/update-product/${productState[i]?._id}` }
+            className='fs-3 text-secondary'
+          >
             <BiEdit />
           </Link>
 

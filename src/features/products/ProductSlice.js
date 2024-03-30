@@ -30,6 +30,24 @@ export const createProducts = createAsyncThunk("product/create-products", async 
   }
 );
 
+// TODO: following updateBlogService I IMPLEMENTED THIS FEATURE
+
+export const getSingleProduct = createAsyncThunk("product/get-single-product", async (id, thunkAPI) => {
+  try {
+    return await productService.getSingleProduct(id);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+export const updateProduct = createAsyncThunk("product/update-product", async (productData, thunkAPI) => {
+  try {
+    return await productService.updateProduct(productData);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
 export const resetState = createAction("Reset_all");
 
 export const productSlice = createSlice({
@@ -66,6 +84,36 @@ export const productSlice = createSlice({
         state.createdProduct = action.payload;
       })
       .addCase(createProducts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(getSingleProduct.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getSingleProduct.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.singleProduct = action.payload;
+      })
+      .addCase(getSingleProduct.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(updateProduct.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateProduct.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.updatedProduct = action.payload;
+      })
+      .addCase(updateProduct.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 // AFTER CLASS 09
@@ -20,11 +20,10 @@ import { useFormik, useField } from 'formik';
 import Dropzone from 'react-dropzone';
 
 import { getBrands } from '../../features/brands/BrandSlice';
-import { getBlogCategories } from '../../features/blogs/BlogCategorySlice';
 import { getProductCategories } from '../../features/products/ProductCategorySlice';
 import { getColors } from '../../features/color/ColorSlice';
 import { uploadProductImg } from '../../features/upload/UploadSlice';
-import { createProducts, resetState } from '../../features/products/ProductSlice';
+import { createProducts, getSingleProduct, updateProduct, resetState } from '../../features/products/ProductSlice';
 
 import { InboxOutlined } from '@ant-design/icons';
 import { message, Upload, Select } from 'antd';
@@ -58,12 +57,16 @@ const AddProduct = () => {
 // AFTER CLASS 08
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const [brand, setBrand] = useState([]);
   const [color, setColor] = useState([]);
-  const [productImages, setProductImages] = useState([])
+  const [productImages, setProductImages] = useState([]);
+  // const [singleProduct, setSingleProduct] = useState();
 
   // const [field, state, { setValue, setTouched }] = useField(props.field.name);
   // const [field, state, { setValue, setTouched }] = useField("color");
+
+  const getProductId = location.pathname.split('/')[3];
 
   let schema = Yup.object().shape({
     title: Yup.string().required("Title is Required"),
@@ -90,7 +93,16 @@ const AddProduct = () => {
   const productImagesState = useSelector((state) => state.upload?.productImagesState);
  // AFTER CLASS 09
   const newProduct = useSelector((state) => state.product);
-  const { isSuccess, isError, isLoading, createdProduct} = newProduct;
+  const { isSuccess, isError, isLoading, createdProduct } = newProduct;
+  const singleProduct = useSelector((state) => state.product?.singleProduct);
+
+  // useEffect(() => {
+  //     if (productById !== undefined) {
+  //       setSingleProduct(productById);
+  //       console.log('single product -> ', singleProduct);
+  //       console.log('productById -> ', productById);
+  //     }
+  //   }, [productById]);
 
   useEffect(() => {
     if (isSuccess && createdProduct) {
@@ -143,26 +155,34 @@ const AddProduct = () => {
 
   const formik = useFormik({
     initialValues: {
-      title: '',
-      description: '',
-      price: '',
-      category: '',
-      brand: '',
-      quantity: '',
-      color: '',
-      tags: '',
+      title: singleProduct?.title || '',
+      description: singleProduct?.description || '',
+      price: singleProduct?.price || '',
+      category: singleProduct?.category || '',
+      brand: singleProduct?.brand || '',
+      quantity: singleProduct?.quantity || '',
+      color: singleProduct?.color || '',
+      tags: singleProduct?.tags || '',
     },
     validationSchema: schema,
     onSubmit: values => {
       // dispatch(login(values));
 
-      dispatch(createProducts(values));
-      formik.resetForm();
-      setColor(null);
-      setTimeout(() => {
-        dispatch(resetState());
+      if (getProductId !== undefined) {
+        const data = { id: getProductId, productData: values };
+        dispatch(updateProduct(data));
         navigate('/admin/product-list');
-      }, 3000);
+      } else {
+        dispatch(createProducts(values));
+        formik.resetForm();
+
+        setColor(null);
+
+        setTimeout(() => {
+          dispatch(resetState());
+          navigate('/admin/product-list');
+        }, 3000);
+      }
 
       alert(JSON.stringify(values, null, 2));
     },
@@ -220,6 +240,13 @@ const AddProduct = () => {
     setColor(e);
     console.log('color -> ', color);
   }
+
+  useEffect(() => {
+    if (getProductId !== undefined) {
+      dispatch(resetState());
+      dispatch(getSingleProduct(getProductId));
+    }
+  }, [getProductId]);
 
   return (
     <div>

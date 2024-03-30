@@ -81,7 +81,7 @@ const Orders = () => {
   for (let i = 0; i < orderState?.length; i++) {
     data1.push({
       key: i + 1,
-      name: orderState[i].orderBy.firstName + ' ' + orderState[i].orderBy.lastName,
+      name: orderState[i]?.orderBy?.firstName + ' ' + orderState[i]?.orderBy?.lastName,
       // TODO: AFTER CLASS 17
       // product: orderState[i].products.map((item, key) => {
       //   return (
